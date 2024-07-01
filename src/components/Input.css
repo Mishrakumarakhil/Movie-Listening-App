@@ -1,0 +1,14 @@
+.search-box {
+  width: 100vw;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+}
+.search-box input {
+  width: 97%;
+  height: 60%;
+  border-radius: 5px;
+  padding: 5px;
+  font-size: 16px;
+}
