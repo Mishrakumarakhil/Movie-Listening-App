@@ -1,10 +1,14 @@
-import "./App.css";
+import React from "react";
 import { MovieListPage } from "./components/MovieListPage";
+import { MovieProvider } from "./helper/MovieContext";
+import "./App.css";
 
 function App() {
   return (
     <div className="App">
-      <MovieListPage />
+      <MovieProvider>
+        <MovieListPage />
+      </MovieProvider>
     </div>
   );
 }
