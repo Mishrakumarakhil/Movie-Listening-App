@@ -1,5 +1,9 @@
 import React from "react";
 import "./Header.css";
 export const Header = () => {
-  return <div>Header</div>;
+  return (
+    <div>
+      <div>Movie List</div>
+    </div>
+  );
 };
