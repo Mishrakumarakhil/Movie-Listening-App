@@ -11,6 +11,7 @@ export const MovieProvider = ({ children }) => {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [singlePageId, setSinglePageId] = useState(null);
 
   const fetchMovieList = async (searchText = "marvel", pageNumber = 1) => {
     setLoading(true);
@@ -31,12 +32,25 @@ export const MovieProvider = ({ children }) => {
     }
   };
 
+  const setSinglePage = (id) => {
+    setSinglePageId(id);
+  };
+
   useEffect(() => {
     fetchMovieList();
   }, []);
 
   return (
-    <MovieContext.Provider value={{ movies, fetchMovieList, loading, error }}>
+    <MovieContext.Provider
+      value={{
+        movies,
+        fetchMovieList,
+        loading,
+        error,
+        setSinglePage,
+        singlePageId,
+      }}
+    >
       {children}
     </MovieContext.Provider>
   );

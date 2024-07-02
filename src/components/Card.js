@@ -1,8 +1,20 @@
 import React from "react";
 
-export const Card = ({ key, Poster, Title, Type, Year, imdbID }) => {
+export const Card = ({
+  key,
+  Poster,
+  Title,
+  Type,
+  Year,
+  imdbID,
+  handleCardClick,
+}) => {
   return (
-    <div className="card-container" key={key}>
+    <div
+      className="card-container"
+      key={key}
+      onClick={() => handleCardClick(imdbID)}
+    >
       <div className="card-poster">
         <img src={Poster} alt="movie-poster" />
       </div>

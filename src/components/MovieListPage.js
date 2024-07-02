@@ -7,7 +7,14 @@ import { MovieCardList } from "./MovieCardList";
 
 export const MovieListPage = () => {
   const [searchValue, setSearchValue] = useState("");
-  const { movies, fetchMovieList, loading, error } = useMovieContext();
+  const {
+    movies,
+    fetchMovieList,
+    loading,
+    error,
+    setSinglePage,
+    singlePageId,
+  } = useMovieContext();
 
   const handleInputChange = (event) => {
     setSearchValue(event.target.value);
@@ -27,7 +34,12 @@ export const MovieListPage = () => {
       <Input value={searchValue} handleInputChange={handleInputChange} />
       {loading && <p>Loading...</p>}
       {/* {error && <p>{error}</p>} */}
-      <MovieCardList cardList={movies} loading={loading} />
+      <MovieCardList
+        cardList={movies}
+        loading={loading}
+        setSinglePage={setSinglePage}
+        singlePageId={singlePageId}
+      />
     </>
   );
 };
