@@ -9,20 +9,20 @@
 .card-container {
   background: #202733;
   padding: 10px;
-  width: 100%; /* Adjust width to fit the grid column */
-  height: auto; /* Adjust height to maintain aspect ratio */
+  width: 100%;
+  height: auto;
   box-sizing: border-box;
+  cursor: pointer;
 }
 
 .card-poster img {
-  width: 100%; /* Make the image fit the container width */
-  height: auto; /* Maintain aspect ratio */
+  width: 100%;
+  height: auto;
 }
 
 .card-title {
   margin-top: 10px;
-  font-size: 1.2rem;
-  text-align: center;
+  font-size: 1rem;
   color: white;
   font-family: "Lucida Sans";
 }
