@@ -20,27 +20,27 @@ export const MovieCardList = ({
     setShowOverlay(false);
     setSinglePage(null);
   };
-  const singlePageData = cardList.filter((ele) => ele.imdbID == singlePageId);
+
+  const singlePageData = cardList.find((ele) => ele.imdbID === singlePageId);
+
   return (
     <div className="card-list-container">
-      {cardList.map((ele) => {
-        return (
-          <Card
-            key={ele.imdbID}
-            Poster={ele.Poster}
-            Title={ele.Title}
-            imdbID={ele.imdbID}
-            handleCardClick={handleCardClick}
-          />
-        );
-      })}
+      {cardList.map((ele) => (
+        <Card
+          key={ele.imdbID}
+          Poster={ele.Poster}
+          Title={ele.Title}
+          imdbID={ele.imdbID}
+          handleCardClick={() => handleCardClick(ele.imdbID)}
+        />
+      ))}
       {showOverlay && (
-        <div className="overlay">
-          <div className="overlay-content">
+        <div className="overlay" onClick={closeOverlay}>
+          <div className="overlay-content" onClick={(e) => e.stopPropagation()}>
             <span className="close" onClick={closeOverlay}>
               &times;
             </span>
-            {singlePageData && <MovieDescription movie={singlePageData[0]} />}
+            {singlePageData && <MovieDescription movie={singlePageData} />}
           </div>
         </div>
       )}

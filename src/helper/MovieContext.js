@@ -14,6 +14,7 @@ export const MovieProvider = ({ children }) => {
   const [singlePageId, setSinglePageId] = useState(null);
   const [typeHeadList, setTypeHeadList] = useState([]);
   const [pageNumber, setPageNumber] = useState(1);
+  const [fetchingMore, setFetchingMore] = useState(false); // State to track fetching more movies
 
   const fetchMovieList = async (searchText = "marvel") => {
     setLoading(true);
@@ -23,8 +24,12 @@ export const MovieProvider = ({ children }) => {
       const response = await fetch(url);
       const data = await response.json();
       if (data.Response === "True") {
-        setMovies((prev) => [...prev, ...data.Search]);
-        setTypeHeadList((prev) => [...prev, data.Search]);
+        if (pageNumber === 1) {
+          setMovies(data.Search);
+        } else {
+          setMovies((prev) => [...prev, ...data.Search]);
+        }
+        setTypeHeadList(data.Search); // Assuming this sets typeHeadList correctly for typeahead
       } else {
         setError(data.Error);
       }
@@ -32,11 +37,12 @@ export const MovieProvider = ({ children }) => {
       setError("Something went wrong");
     } finally {
       setLoading(false);
+      setFetchingMore(false); // Reset fetching more flag
     }
   };
 
   const fetchTypeHeadList = (val) => {
-    let data = typeHeadList?.filter((ele) =>
+    let data = movies.filter((ele) =>
       ele.Title.toLowerCase().includes(val.toLowerCase())
     );
     setTypeHeadList(data);
@@ -46,21 +52,26 @@ export const MovieProvider = ({ children }) => {
     setSinglePageId(id);
   };
 
-  useEffect(() => {
-    fetchMovieList();
-  }, []);
-
-  const infiniteScroll = async (val) => {
+  const infiniteScroll = () => {
     if (
-      window.innerHeight + window.scrollY >=
-      window.document.body.offsetHeight
+      window.innerHeight + window.scrollY >= document.body.offsetHeight - 500 &&
+      !loading &&
+      !fetchingMore // Check if not already fetching more
     ) {
-      if (!loading) {
-        await setPageNumber((prev) => prev + 1);
-        await fetchMovieList(val);
-      }
+      setFetchingMore(true); // Set fetching more flag to true
+      setPageNumber((prev) => prev + 1);
     }
   };
+
+  useEffect(() => {
+    fetchMovieList();
+  }, [pageNumber]);
+
+  useEffect(() => {
+    window.addEventListener("scroll", infiniteScroll);
+
+    return () => window.removeEventListener("scroll", infiniteScroll);
+  }, [infiniteScroll]); // Use the function reference directly
 
   return (
     <MovieContext.Provider
@@ -73,7 +84,6 @@ export const MovieProvider = ({ children }) => {
         singlePageId,
         fetchTypeHeadList,
         typeHeadList,
-        infiniteScroll,
       }}
     >
       {children}
