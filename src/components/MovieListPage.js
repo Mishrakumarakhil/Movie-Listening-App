@@ -3,6 +3,7 @@ import "./MovieListPage.css";
 import { Header } from "./Header";
 import { Input } from "./Input";
 import { useMovieContext } from "../helper/MovieContext";
+import { MovieCardList } from "./MovieCardList";
 
 export const MovieListPage = () => {
   const [searchValue, setSearchValue] = useState("");
@@ -25,12 +26,8 @@ export const MovieListPage = () => {
       <Header />
       <Input value={searchValue} handleInputChange={handleInputChange} />
       {loading && <p>Loading...</p>}
-      {error && <p>{error}</p>}
-      <ul>
-        {movies.map((movie) => (
-          <li key={movie.imdbID}>{movie.Title}</li>
-        ))}
-      </ul>
+      {/* {error && <p>{error}</p>} */}
+      <MovieCardList cardList={movies} loading={loading} />
     </>
   );
 };

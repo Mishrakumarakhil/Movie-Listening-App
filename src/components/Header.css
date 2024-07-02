@@ -3,10 +3,12 @@
   justify-content: space-between;
   padding: 20px;
 }
+
 .logo-text {
   font-size: 24px;
   font-family: sans-serif;
 }
+
 .nav-bar a {
   color: white;
   cursor: pointer;
