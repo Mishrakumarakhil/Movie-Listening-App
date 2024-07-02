@@ -12,8 +12,10 @@ export const MovieProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [singlePageId, setSinglePageId] = useState(null);
+  const [typeHeadList, setTypeHeadList] = useState([]);
+  const [pageNumber, setPageNumber] = useState(1);
 
-  const fetchMovieList = async (searchText = "marvel", pageNumber = 1) => {
+  const fetchMovieList = async (searchText = "marvel") => {
     setLoading(true);
     setError(null);
     try {
@@ -21,7 +23,8 @@ export const MovieProvider = ({ children }) => {
       const response = await fetch(url);
       const data = await response.json();
       if (data.Response === "True") {
-        setMovies(data.Search);
+        setMovies((prev) => [...prev, ...data.Search]);
+        setTypeHeadList((prev) => [...prev, data.Search]);
       } else {
         setError(data.Error);
       }
@@ -32,6 +35,13 @@ export const MovieProvider = ({ children }) => {
     }
   };
 
+  const fetchTypeHeadList = (val) => {
+    let data = typeHeadList?.filter((ele) =>
+      ele.Title.toLowerCase().includes(val.toLowerCase())
+    );
+    setTypeHeadList(data);
+  };
+
   const setSinglePage = (id) => {
     setSinglePageId(id);
   };
@@ -39,6 +49,18 @@ export const MovieProvider = ({ children }) => {
   useEffect(() => {
     fetchMovieList();
   }, []);
+
+  const infiniteScroll = async (val) => {
+    if (
+      window.innerHeight + window.scrollY >=
+      window.document.body.offsetHeight
+    ) {
+      if (!loading) {
+        await setPageNumber((prev) => prev + 1);
+        await fetchMovieList(val);
+      }
+    }
+  };
 
   return (
     <MovieContext.Provider
@@ -49,6 +71,9 @@ export const MovieProvider = ({ children }) => {
         error,
         setSinglePage,
         singlePageId,
+        fetchTypeHeadList,
+        typeHeadList,
+        infiniteScroll,
       }}
     >
       {children}

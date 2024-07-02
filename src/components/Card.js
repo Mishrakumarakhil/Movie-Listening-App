@@ -1,14 +1,6 @@
 import React from "react";
 
-export const Card = ({
-  key,
-  Poster,
-  Title,
-  Type,
-  Year,
-  imdbID,
-  handleCardClick,
-}) => {
+export const Card = ({ key, Poster, Title, imdbID, handleCardClick }) => {
   return (
     <div
       className="card-container"

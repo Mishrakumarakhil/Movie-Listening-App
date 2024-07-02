@@ -29,8 +29,6 @@ export const MovieCardList = ({
             key={ele.imdbID}
             Poster={ele.Poster}
             Title={ele.Title}
-            Type={ele.Type}
-            Year={ele.Year}
             imdbID={ele.imdbID}
             handleCardClick={handleCardClick}
           />
